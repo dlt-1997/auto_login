@@ -1,0 +1,26 @@
+#!/usr/local/bin/expect
+
+# argument must be "hostname username password"
+if { $argc != 3 } {
+	puts stderr "Usage: $argv0 \[hostname\] \[username\] \[password\]"
+	exit -1
+}
+
+# set variable
+set hostname [lindex $argv 0]
+set username [lindex $argv 1]
+set password [lindex $argv 2]
+
+# ssh the given host with the given username
+spawn ssh $username@$hostname
+
+# wait to input password
+expect "*password:"
+
+# input password
+send "$password\r"
+
+# stay in interact status
+interact
+
+
